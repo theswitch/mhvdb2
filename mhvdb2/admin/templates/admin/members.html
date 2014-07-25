@@ -4,6 +4,11 @@
 {% block title %}Admin - Members{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
+<style>
+.expired {
+    background-color: #f00;
+}
+</style>
 {% endblock %}
 {% block content %}
 <h1>Admin - Members</h1>
@@ -38,4 +43,14 @@
 {% endblock %}
 {% block scripts %}
 <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
+<script>
+var table = $('.datatable').dataTable().api();
+table.rows().eq(0).each(function(idx) {
+    var row = table.row(idx);
+    var agreeDate = new Date(row.data()[4]);
+    if (agreeDate < Date.now()) {
+        row.nodes().to$().addClass("expired");
+    }
+});
+</script>
 {% endblock %}
